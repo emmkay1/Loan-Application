@@ -23,7 +23,6 @@ const Pay = () => {
 
       if (error) setFormError("Loan not found");
       if (data) {
-        console.log(data[0].created_at, data[0].cool_off_date)
         setLoan(data.filter((loan) => loan.remaining_payment > 0));
         data.length > 0
           ? setFormError(null)
