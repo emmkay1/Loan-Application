@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import supabase from "../config/supabaseClient";
 
@@ -9,7 +9,24 @@ const AddEmployee = () => {
   const [email, setEmail] = useState("");
   const [salary, setSalary] = useState("");
   const [citizen_id, setCitizenId] = useState("");
+  const [employees, setEmployees] = useState(null);
   const [formError, setFormError] = useState(null);
+
+  useEffect(() => {
+    const fetchEmployee = async () => {
+      const { data, error } = await supabase.from("employee").select();
+
+      if (error) {
+        console.error("error", error);
+        setEmployees(null);
+      }
+      if (data) {
+        setEmployees(data);
+        console.log(data);
+      }
+    };
+    fetchEmployee();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,6 +38,16 @@ const AddEmployee = () => {
 
     if (citizen_id.length !== 6 || isNaN(citizen_id)) {
       setFormError("Please fill in a six digit citizen number.");
+      return;
+    }
+
+    if (employees.find((employee) => employee.email === email)) {
+      setFormError("Email alreay exists.");
+      return;
+    }
+
+    if (employees.find((employee) => employee.citizen_id === +citizen_id)) {
+      setFormError("Citizen ID alreay exists.");
       return;
     }
 
