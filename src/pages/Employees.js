@@ -33,7 +33,7 @@ const Employees = () => {
         <div className="employee">
           <div className="loan-grid">
             {employees.map((employee) => (
-              <EmployeeCard key={employee.id} employee={employee} />
+              <EmployeeCard key={employee.uuid} employee={employee} />
             ))}
           </div>
         </div>

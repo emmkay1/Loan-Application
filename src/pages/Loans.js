@@ -54,7 +54,7 @@ const Loans = () => {
   const displayLoans = (loanType) => {
     return loanType.map((loan) => (
       <LoanCard
-        key={loan.id}
+        key={loan.uuid}
         loan={loan}
         onDelete={handleDelete}
         onPay={false}
