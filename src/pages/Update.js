@@ -21,7 +21,6 @@ const Update = () => {
     }
 
     if (citizen_id.toString().length !== 6 || isNaN(citizen_id)) {
-      console.log(typeof citizen_id);
       setFormError("Please fill in a six digit citizen number.");
       return;
     }
