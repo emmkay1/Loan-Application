@@ -30,8 +30,8 @@ const Employees = () => {
     <div className="page home">
       {fetchError && <p>{fetchError}</p>}
       {employees && (
-        <div className="employee">
-          <div className="loan-grid">
+        <div className="employees">
+          <div className="grid">
             {employees.map((employee) => (
               <EmployeeCard key={employee.uuid} employee={employee} />
             ))}

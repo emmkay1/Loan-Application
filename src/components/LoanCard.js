@@ -44,7 +44,7 @@ const LoanCard = ({ loan, onDelete = null, onPay = true }) => {
   };
 
   return (
-    <div className="loan-card">
+    <div className="card">
       <p className="value">
         <span className="label">Employee Name</span> {loan.employee_name}
       </p>
@@ -68,7 +68,7 @@ const LoanCard = ({ loan, onDelete = null, onPay = true }) => {
         <span className="label">Tenure (years)</span> {loan.payment_period}
       </p>
       <p className="value">
-        <span className="label">Remaining Payment Amount</span>{" "}
+        <span className="label">Remaining Payment</span> K
         {loan.remaining_payment <= 0 ? 0 : loan.remaining_payment}
       </p>
       <p className="value">

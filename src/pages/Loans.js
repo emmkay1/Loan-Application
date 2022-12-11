@@ -73,7 +73,7 @@ const Loans = () => {
             <button onClick={() => handleOwing()}>Owing</button>
             <button onClick={() => handlePaid()}>Paid</button>
           </div>
-          <div className="loan-grid">
+          <div className="grid">
             {paidLoans
               ? displayLoans(paidLoans)
               : owedLoans
