@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
-const EmployeeCard = ({ employee, visible = true }) => {
+const EmployeeCard = ({ employee }) => {
   return (
-    <div className="loan-card">
+    <div className="card">
       <p className="value">
         <span className="label">Name</span> {employee.name}
       </p>
