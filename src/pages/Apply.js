@@ -42,7 +42,7 @@ const Apply = () => {
       const { data, error } = await supabase.from("employee").select();
 
       if (error) {
-        setFetchError("Could not fetch the employees");
+        setFetchError("Possible connection failure. Come back later.");
         setEmployees(null);
       }
       if (data) {
@@ -148,8 +148,7 @@ const Apply = () => {
   return (
     <div className="page create">
       {console.log("loan status", cleared)}
-      {fetchError && <p>{fetchError}</p>}
-      {employees && (
+      {/* {employees && ( */}
         <form onSubmit={handleSubmit}>
           <label htmlFor="employee_id">Employee Number:</label>
           <input
@@ -183,7 +182,8 @@ const Apply = () => {
 
           {formError && <p className="error">{formError}</p>}
         </form>
-      )}
+        {fetchError && <p>{fetchError}</p>}
+      {/* )} */}
     </div>
   );
 };
