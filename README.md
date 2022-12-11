@@ -10,9 +10,10 @@
     - [Home Page](#home-page)
     - [Loan Application Page](#loan-application-page)
     - [Loan Payment Page](#loan-payment-page)
-    - [Employees Page & Update Page](#employees-page--update-page)
+    - [Employees Page \& Update Page](#employees-page--update-page)
     - [Loans Page](#loans-page)
     - [New Employee Page](#new-employee-page)
+  - [Database](#database)
 
 ## Project description
 
@@ -20,7 +21,7 @@ I built the loan application using React.js for the front end and Postgres (Supa
 
 Employees would interact with the home, loan application, and loan payment pages, while the company responsible for disbursement would interact with the others.
 
-There is a default interest rate of 323.94% on the loan application. During the application process, employees cannot choose their own interest rate. You can find the interest rate in the [Apply](/src/pages/Apply.js) page. Payment Periods can range from six months to ten years in duration.
+There is a default interest rate of 323.94% on the loan application. During the application process, employees cannot choose their interest rate. You can find the interest rate in the [Apply](/src/pages/Apply.js) page. Payment Periods can range from six months to ten years in duration.
 
 ---
 
@@ -41,3 +42,8 @@ The loans page shows all the loans. The company has the option of deleting a loa
 
 ### New Employee Page
 The new employee page is where the company can add new employees. The page contains a form with input fields for the employee's name, email, citizen ID, and salary. An Employee's ID is generated automatically in the backend. The minimum salary an employee can have is 5000. The citizen ID is a six digit number.
+
+---
+
+## Database
+Currently the database contains two tables, one for employees and the other for loans. The employees table is where we store the information for each employee. The loans table contains information for all loans. The loans table has employee_id foreign key which references the employee_id in the employees table. A simple illustration of the database is shown in this [image](loan-app-db.png).
