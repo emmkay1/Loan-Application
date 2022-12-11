@@ -148,7 +148,7 @@ const Apply = () => {
   return (
     <div className="page create">
       {console.log("loan status", cleared)}
-      {/* {employees && ( */}
+      {employees && (
         <form onSubmit={handleSubmit}>
           <label htmlFor="employee_id">Employee Number:</label>
           <input
@@ -182,8 +182,8 @@ const Apply = () => {
 
           {formError && <p className="error">{formError}</p>}
         </form>
-        {fetchError && <p>{fetchError}</p>}
-      {/* )} */}
+      )}
+      {fetchError && <p style={{ textAlign: "center" }}>{fetchError}</p>}
     </div>
   );
 };

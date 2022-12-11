@@ -64,7 +64,7 @@ const Loans = () => {
 
   return (
     <div className="page home">
-      {fetchError && <p>{fetchError}</p>}
+      {fetchError && <p style={{ textAlign: "center" }}>{fetchError}</p>}
       {loans && (
         <div className="loans">
           <div className="order-by">

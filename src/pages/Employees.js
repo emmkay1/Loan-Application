@@ -12,7 +12,7 @@ const Employees = () => {
       const { data, error } = await supabase.from("employee").select();
 
       if (error) {
-        setFetchError("Could not fetch the employee");
+        setFetchError("Could not fetch the employees");
         setEmployees(null);
       }
       if (data) {
@@ -28,7 +28,7 @@ const Employees = () => {
 
   return (
     <div className="page home">
-      {fetchError && <p>{fetchError}</p>}
+      {fetchError && <p style={{ textAlign: "center" }}>{fetchError}</p>}
       {employees && (
         <div className="employees">
           <div className="grid">

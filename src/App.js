@@ -13,7 +13,7 @@ function App() {
   return (
     <BrowserRouter>
       <nav>
-        <h1>Loan App</h1>
+        <h1 className="title">Loan App</h1>
         <Link to="/">Home</Link>
         <Link to="/apply">Apply</Link>
         <Link to="pay">Pay</Link>

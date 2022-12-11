@@ -4,9 +4,9 @@
   --primary: #12bca2;
   --secondary: #6d15df;
 }
-h1,h2,h3 {
+/* h1,h2,h3 {
   margin: 0;
-}
+} */
 
 body {
   margin: 0;
@@ -14,6 +14,11 @@ body {
   font-family: 'Poppins';
   background: #f2f2f2;
 }
+
+.title {
+  margin: 0;
+}
+
 nav {
   background: var(--primary);
   padding: 10px 20px;

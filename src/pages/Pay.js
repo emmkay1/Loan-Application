@@ -47,7 +47,7 @@ const Pay = () => {
 
       {formError && <h1>{formError}</h1>}
       {loan && (
-        <div className="loan-grid">
+        <div className="grid">
           {loan.map((loan) => (
             <LoanCard key={loan.id} loan={loan} />
           ))}
