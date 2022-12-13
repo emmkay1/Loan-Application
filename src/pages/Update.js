@@ -36,7 +36,7 @@ const Update = () => {
     }
     if (data) {
       setFormError(null);
-      navigate("/employees");
+      navigate("/Employees");
     }
   };
 

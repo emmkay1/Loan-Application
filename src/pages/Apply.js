@@ -95,7 +95,7 @@ const Apply = () => {
     }
     if (data) {
       setFormError(null);
-      navigate("/pay");
+      navigate("/Pay");
     }
   };
 

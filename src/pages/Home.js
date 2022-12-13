@@ -42,7 +42,7 @@ const Home = () => {
   }, [loan_amount, loan_interest, payment_period]);
 
   const toApplicationPage = () => {
-    navigate("/apply");
+    navigate("/Apply");
   };
 
   return (

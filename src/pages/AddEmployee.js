@@ -72,7 +72,7 @@ const AddEmployee = () => {
     if (data) {
       console.log(data);
       setFormError(null);
-      navigate("/employees");
+      navigate("/Employees");
     }
   };
 
