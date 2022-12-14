@@ -8,12 +8,14 @@ import Loans from "./pages/Loans";
 import Update from "./pages/Update";
 import Pay from "./pages/Pay";
 import AddEmployee from "./pages/AddEmployee";
-import NavBar from "./components/NavBar";
+// import NavBar from "./components/NavBar";
+import NavBarAlt from "./components/NavBarAlt";
 
 function App() {
   return (
     <BrowserRouter>
-      <NavBar />
+      {/* <NavBar /> */}
+      <NavBarAlt />
       {/* <nav>
         <h1 className="title">Loan App</h1>
         <Link to="/">Home</Link>
