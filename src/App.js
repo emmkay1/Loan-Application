@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-// pages
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Home from "./pages/Home";
 import Apply from "./pages/Apply";
 import Employees from "./pages/Employees";
@@ -11,12 +11,15 @@ import AddEmployee from "./pages/AddEmployee";
 // import NavBar from "./components/NavBar";
 import NavBarAlt from "./components/NavBarAlt";
 
+const queryClient = new QueryClient();
+
 function App() {
   return (
-    <BrowserRouter>
-      {/* <NavBar /> */}
-      <NavBarAlt />
-      {/* <nav>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        {/* <NavBar /> */}
+        <NavBarAlt />
+        {/* <nav>
         <h1 className="title">Loan App</h1>
         <Link to="/">Home</Link>
         <Link to="/Apply">Apply</Link>
@@ -25,16 +28,18 @@ function App() {
         <Link to="/Loans">Loans</Link>
         <Link to="/New">New Employee</Link>
       </nav> */}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/Apply" element={<Apply />} />
-        <Route path="/Pay" element={<Pay />} />
-        <Route path="/Employees" element={<Employees />} />
-        <Route path="/Loans" element={<Loans />} />
-        <Route path="/:id" element={<Update />} />
-        <Route path="/New" element={<AddEmployee />} />
-      </Routes>
-    </BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/Apply" element={<Apply />} />
+          <Route path="/Pay" element={<Pay />} />
+          <Route path="/Employees" element={<Employees />} />
+          <Route path="/Loans" element={<Loans />} />
+          <Route path="/:id" element={<Update />} />
+          <Route path="/New" element={<AddEmployee />} />
+        </Routes>
+      </BrowserRouter>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 
