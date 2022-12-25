@@ -1,55 +1,38 @@
-import supabase from "../config/supabaseClient";
 import { useEffect, useState } from "react";
 import LoanCard from "../components/LoanCard";
+import ProgressLinear from "../components/ProgressLinear";
+import useFetchData from "../hooks/useFetchData";
 
 const Loans = () => {
   const [loans, setLoans] = useState(null);
   const [paidLoans, setPaidLoans] = useState(null);
   const [owedLoans, setOwedLoans] = useState(null);
-  const [fetchError, setFetchError] = useState(null);
-  const [formError, setFormError] = useState(null);
+
+  const { isFetching, isPaused, data, isError } = useFetchData("loans");
+
+  useEffect(() => {
+    data && setLoans(data);
+  }, [data]);
+
+  const filterLoans = (filterType) => {
+    switch (filterType) {
+      case "owed":
+        setOwedLoans(loans.filter((loan) => loan.remaining_payment > 0));
+        setPaidLoans(null);
+        break;
+      case "paid":
+        setPaidLoans(loans.filter((loan) => loan.remaining_payment <= 0));
+        setOwedLoans(null);
+        break;
+      default:
+        setPaidLoans(null);
+        setOwedLoans(null);
+    }
+  };
 
   const handleDelete = (id) => {
     setLoans((prevLoans) => prevLoans.filter((loan) => loan.id !== id));
   };
-
-  const handleOwing = () => {
-    setOwedLoans(loans.filter((loan) => loan.remaining_payment > 0));
-    setPaidLoans(null);
-  };
-
-  const handlePaid = () => {
-    setPaidLoans(loans.filter((loan) => loan.remaining_payment <= 0));
-    setOwedLoans(null);
-  };
-
-  const handleAll = () => {
-    setPaidLoans(null);
-    setOwedLoans(null);
-  };
-
-  useEffect(() => {
-    const fetchLoans = async () => {
-      const { data, error } = await supabase
-        .from("loan_application")
-        .select()
-        .order("created_at", { ascending: false });
-
-      if (error) {
-        setFetchError("Could not fetch the loans");
-        setLoans(null);
-      }
-      if (data) {
-        setLoans(data);
-        setFetchError(null);
-      }
-      if (data.length === 0) {
-        setFormError("No Loans");
-      }
-    };
-
-    fetchLoans();
-  }, []);
 
   const displayLoans = (loanType) => {
     return loanType.map((loan) => (
@@ -62,16 +45,23 @@ const Loans = () => {
     ));
   };
 
+  if (isFetching) return <ProgressLinear />;
+
+  if (isError)
+    return <div className="page center-txt">Something went horribly wrong</div>;
+
   return (
     <div className="page home">
-      {fetchError && <p style={{ textAlign: "center" }}>{fetchError}</p>}
+      {isPaused && !data && (
+        <p style={{ textAlign: "center" }}>Could not fetch the loans</p>
+      )}
       {loans && (
         <div className="loans">
           <div className="order-by">
             <p>Filter by:</p>
-            <button onClick={() => handleAll()}>All</button>
-            <button onClick={() => handleOwing()}>Owing</button>
-            <button onClick={() => handlePaid()}>Paid</button>
+            <button onClick={() => filterLoans('All')}>All</button>
+            <button onClick={() => filterLoans('owed')}>Owing</button>
+            <button onClick={() => filterLoans('paid')}>Paid</button>
           </div>
           <div className="grid">
             {paidLoans
@@ -82,7 +72,7 @@ const Loans = () => {
           </div>
         </div>
       )}
-      {formError && <h1>{formError}</h1>}
+      {data.length === 0 && <h1 className="center-txt">No Loans</h1>}
     </div>
   );
 };

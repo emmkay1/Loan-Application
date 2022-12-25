@@ -1,34 +1,25 @@
-import supabase from "../config/supabaseClient";
-import { useEffect, useState } from "react";
 import EmployeeCard from "../components/EmployeeCard";
+import ProgressLinear from "../components/ProgressLinear";
+import useFetchData from "../hooks/useFetchData";
 
 const Employees = () => {
-  const [fetchError, setFetchError] = useState(null);
-  const [employees, setEmployees] = useState(null);
-  const [formError, setFormError] = useState(null);
+  const {
+    isFetching,
+    isPaused,
+    data: employees,
+    isError,
+  } = useFetchData("employees");
 
-  useEffect(() => {
-    const fetchEmployee = async () => {
-      const { data, error } = await supabase.from("employee").select();
+  if (isFetching) return <ProgressLinear />;
 
-      if (error) {
-        setFetchError("Could not fetch the employees");
-        setEmployees(null);
-      }
-      if (data) {
-        setEmployees(data);
-        setFetchError(null);
-      }
-      if (data.length === 0) {
-        setFormError("No Employees");
-      }
-    };
-    fetchEmployee();
-  }, []);
+  if (isError)
+    return <div className="page center-txt">Something went horribly wrong</div>;
 
   return (
     <div className="page home">
-      {fetchError && <p style={{ textAlign: "center" }}>{fetchError}</p>}
+      {isPaused && !employees && (
+        <p className="center-txt">Possible network connection failure</p>
+      )}
       {employees && (
         <div className="employees">
           <div className="grid">
@@ -38,7 +29,7 @@ const Employees = () => {
           </div>
         </div>
       )}
-      {formError && <h1>{formError}</h1>}
+      {employees.length === 0 && <h1 className="center-txt">No Employees</h1>}
     </div>
   );
 };
