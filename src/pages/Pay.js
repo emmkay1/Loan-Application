@@ -17,7 +17,7 @@ const Pay = () => {
 
     if (employee_id) {
       const { data, error } = await supabase
-        .from("loan_application")
+        .from("loans")
         .select()
         .eq("employee_id", employee_id);
 
@@ -45,7 +45,7 @@ const Pay = () => {
         <button>Submit</button>
       </form>
 
-      {formError && <h1>{formError}</h1>}
+      {formError && <h1 className="center-txt">{formError}</h1>}
       {loan && (
         <div className="grid">
           {loan.map((loan) => (
