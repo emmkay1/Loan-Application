@@ -16,7 +16,7 @@ const useUpdateData = (dataObj, relation, colName, key, qkey) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: [relation, colName],
+    mutationKey: [relation, colName, key],
     mutationFn: () => updateEmployee(dataObj, relation, colName, key),
     onSuccess: (data) => {
       queryClient.setQueryData([qkey.tbl, qkey.id], data);
