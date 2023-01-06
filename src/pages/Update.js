@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import supabase from "../config/supabaseClient";
+import ProgressLinear from "../components/ProgressLinear";
+import useUpdateData from "../hooks/useUpdateData";
+import useFetchSingle from "../hooks/useFetchSingle";
 
 const Update = () => {
   const { id } = useParams();
@@ -11,6 +13,25 @@ const Update = () => {
   const [name, setName] = useState("");
   const [citizen_id, setCitizenId] = useState("");
   const [formError, setFormError] = useState(null);
+
+  const [updateInfo, varObj] = [
+    { salary, email, name, citizen_id },
+    { tbl: "employee", id },
+  ];
+
+  const {
+    isPaused,
+    isFetching,
+    data: employee,
+    isError,
+  } = useFetchSingle("employees", "id", varObj);
+
+  const {
+    isLoading,
+    isSuccess,
+    data: updateData,
+    mutate,
+  } = useUpdateData(updateInfo, "employees", "id", id, varObj);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,82 +46,72 @@ const Update = () => {
       return;
     }
 
-    const { data, error } = await supabase
-      .from("employee")
-      .update({ salary, email, name, citizen_id })
-      .eq("id", id)
-      .select();
-
-    if (error) {
-      setFormError("Please fill in all the fields correctly.");
-    }
-    if (data) {
-      setFormError(null);
-      navigate("/Employees");
-    }
+    mutate();
   };
 
   useEffect(() => {
-    const fetchEmployees = async () => {
-      const { data, error } = await supabase
-        .from("employee")
-        .select()
-        .eq("id", id)
-        .single();
+    if (isError) navigate("/", { replace: true });
+    if (isSuccess) navigate("/Employees");
+  }, [isError, isSuccess, navigate]);
 
-      if (error) {
-        navigate("/", { replace: true });
-      }
-      if (data) {
-        setSalary(data.salary);
-        setEmail(data.email);
-        setName(data.name);
-        setCitizenId(data.citizen_id);
-      }
-    };
+  useEffect(() => {
+    if (employee) {
+      setSalary(employee[0].salary);
+      setEmail(employee[0].email);
+      setName(employee[0].name);
+      setCitizenId(employee[0].citizen_id);
+    }
+  }, [employee]);
 
-    fetchEmployees();
-  }, [id, navigate]);
+  if (isFetching || isLoading) return <ProgressLinear />;
 
   return (
     <div className="page create">
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+      {/* {console.log(updateData, employee, isError)} */}
+      {isPaused && (
+        <p style={{ textAlign: "center" }}>
+          Possible network connection failure
+        </p>
+      )}
+      {employee && (
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="name">Name:</label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
 
-        <label htmlFor="email">Email:</label>
-        <input
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+          <label htmlFor="email">Email:</label>
+          <input
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-        <label htmlFor="salary">Salary:</label>
-        <input
-          type="number"
-          id="salary"
-          min={10000}
-          value={salary}
-          onChange={(e) => setSalary(e.target.value)}
-        />
+          <label htmlFor="salary">Salary:</label>
+          <input
+            type="number"
+            id="salary"
+            min={10000}
+            value={salary}
+            onChange={(e) => setSalary(e.target.value)}
+          />
 
-        <label htmlFor="citizen_id">Citizen ID:</label>
-        <input
-          type="number"
-          id="citizen_id"
-          value={citizen_id}
-          onChange={(e) => setCitizenId(e.target.value)}
-        />
+          <label htmlFor="citizen_id">Citizen ID:</label>
+          <input
+            type="number"
+            id="citizen_id"
+            value={citizen_id}
+            onChange={(e) => setCitizenId(e.target.value)}
+          />
 
-        <button>Update Employee Info</button>
+          <button>Update Employee Info</button>
 
-        {formError && <p className="error">{formError}</p>}
-      </form>
+          {formError && <p className="error">{formError}</p>}
+        </form>
+      )}
     </div>
   );
 };
