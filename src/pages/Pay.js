@@ -33,7 +33,6 @@ const Pay = () => {
 
   return (
     <div className="page home">
-      {console.log(loan)}
       <form onSubmit={handleSubmit}>
         <label htmlFor="employee_id">Employee Number:</label>
         <input
