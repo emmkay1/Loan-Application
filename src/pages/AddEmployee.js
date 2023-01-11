@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import supabase from "../config/supabaseClient";
+import ProgressLinear from "../components/ProgressLinear";
+import useFetchData from "../hooks/useFetchData";
+import useInsertData from "../hooks/useInsertData";
 
 const AddEmployee = () => {
   const navigate = useNavigate();
@@ -9,24 +11,28 @@ const AddEmployee = () => {
   const [email, setEmail] = useState("");
   const [salary, setSalary] = useState("");
   const [citizen_id, setCitizenId] = useState("");
-  const [employees, setEmployees] = useState(null);
   const [formError, setFormError] = useState(null);
 
-  useEffect(() => {
-    const fetchEmployee = async () => {
-      const { data, error } = await supabase.from("employee").select();
+  const {
+    isFetching,
+    isPaused,
+    data: employees,
+    isError,
+  } = useFetchData("employees");
 
-      if (error) {
-        console.error("error", error);
-        setEmployees(null);
-      }
-      if (data) {
-        setEmployees(data);
-        console.log(data);
-      }
-    };
-    fetchEmployee();
-  }, []);
+  const { data, isSuccess, mutate } = useInsertData(
+    {
+      name,
+      email,
+      salary,
+      citizen_id,
+    },
+    "employees"
+  );
+
+  useEffect(() => {
+    if (isSuccess) navigate("/Employees");
+  }, [isSuccess, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,35 +57,22 @@ const AddEmployee = () => {
       return;
     }
 
-    const { data, error } = await supabase
-      .from("employee")
-      .insert([
-        {
-          name,
-          email,
-          salary,
-          citizen_id,
-        },
-      ])
-      .select("*");
-    console.log(name, email, salary, citizen_id);
-    console.log(data, error);
-
-    if (error) {
-      console.log(error);
-      setFormError("Please fill in all the fields.");
-    }
-    if (data) {
-      console.log(data);
-      setFormError(null);
-      navigate("/Employees");
-    }
+    mutate();
   };
+
+  if (isFetching) return <ProgressLinear />;
+
+  if (isError)
+    return <div className="page center-txt">Something went horribly wrong</div>;
 
   return (
     <div className="page create">
+      {console.log("Insert Data: ", data)}
+      {isPaused && !employees && (
+        <p className="center-txt">Possible network connection failure</p>
+      )}
       <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Employee Names:</label>
+        <label htmlFor="name">Employee Name:</label>
         <input
           type="text"
           id="name"
