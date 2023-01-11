@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import supabase from "../config/supabaseClient";
 
-const updateEmployee = async (dataObj, relation, colName, key) => {
+const updateData = async (dataObj, relation, colName, key) => {
   const { data, error } = await supabase
     .from(relation)
     .update(dataObj)
@@ -17,7 +17,7 @@ const useUpdateData = (dataObj, relation, colName, key, qkey) => {
 
   return useMutation({
     mutationKey: [relation, colName, key],
-    mutationFn: () => updateEmployee(dataObj, relation, colName, key),
+    mutationFn: () => updateData(dataObj, relation, colName, key),
     onSuccess: (data) => {
       queryClient.setQueryData([qkey.tbl, qkey.id], data);
     },
