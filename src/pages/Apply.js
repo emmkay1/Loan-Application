@@ -24,7 +24,7 @@ const Apply = () => {
 
     const fetchLoans = async () => {
       const { data, error } = await supabase
-        .from("loan_application")
+        .from("loans")
         .select()
         .eq("employee_id", employee_id);
 
@@ -39,7 +39,7 @@ const Apply = () => {
 
   useEffect(() => {
     const fetchEmployees = async () => {
-      const { data, error } = await supabase.from("employee").select();
+      const { data, error } = await supabase.from("employees").select();
 
       if (error) {
         setFetchError("Possible connection failure. Come back later.");
@@ -73,7 +73,7 @@ const Apply = () => {
 
   const newLoan = async (employee_name, employee_email) => {
     const { data, error } = await supabase
-      .from("loan_application")
+      .from("loans")
       .insert([
         {
           loan_amount,
