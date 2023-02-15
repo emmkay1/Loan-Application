@@ -99,6 +99,16 @@ nav h1 {
   cursor: pointer;
 }
 
+.table i {
+  color: #bbb;
+  margin-left: 10px;
+  font-size: 1.2em;
+  padding: 6px;
+  background: #eee;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
 /* forms */
 form {
   background: #fff;
@@ -147,5 +157,18 @@ form button {
   padding: 4px 8px;
   border-radius: 6px;
   font-family: "Poppins";
+  cursor: pointer;
+}
+
+.order-by p {
+  margin-top: auto;
+}
+
+.filter-nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.viewer i {
   cursor: pointer;
 }
