@@ -11,7 +11,7 @@ const LoanCard = ({ loan, onDelete = null, onPay = true }) => {
 
   const handleDelete = async () => {
     const { data, error } = await supabase
-      .from("loan_application")
+      .from("loans")
       .delete()
       .eq("id", loan.id)
       .select();
@@ -29,7 +29,7 @@ const LoanCard = ({ loan, onDelete = null, onPay = true }) => {
     const remainder = remaining_payment - loan.payment_per_month;
 
     const { data, error } = await supabase
-      .from("loan_application")
+      .from("loans")
       .update({ remaining_payment: remainder < 0 ? 0 : remainder })
       .eq("id", loan.id)
       .select();
