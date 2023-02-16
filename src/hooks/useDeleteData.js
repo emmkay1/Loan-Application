@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import supabase from "../config/supabaseClient";
 
 const deleteData = async (tableName, colName, key) => {
@@ -12,9 +12,17 @@ const deleteData = async (tableName, colName, key) => {
   return data;
 };
 
-const useDeleteData = (tableName, colName, qkey) =>
-  useMutation({
+const useDeleteData = (tableName, colName, qkey) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
     mutationFn: () => deleteData(tableName, colName, qkey),
+    onSuccess: () => {
+      queryClient.setQueryData([tableName], (oldData) =>
+        oldData.filter((e) => e.id !== qkey)
+      );
+    },
   });
+};
 
 export default useDeleteData;
