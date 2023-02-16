@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import supabase from "../config/supabaseClient";
+import useDeleteData from "../hooks/useDeleteData";
 
 const LoanCard = ({ loan, onDelete = null, onPay = true }) => {
   const navigate = useNavigate();
@@ -9,20 +10,10 @@ const LoanCard = ({ loan, onDelete = null, onPay = true }) => {
     loan.remaining_payment
   );
 
-  const handleDelete = async () => {
-    const { data, error } = await supabase
-      .from("loans")
-      .delete()
-      .eq("id", loan.id)
-      .select();
+  const { mutate } = useDeleteData("loans", "id", loan.id);
 
-    if (error) {
-      console.log(error);
-    }
-    if (data) {
-      console.log(data);
-      onDelete(loan.id);
-    }
+  const handleDelete = () => {
+    mutate();
   };
 
   const handlePay = async () => {
