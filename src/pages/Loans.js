@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import LoanCard from "../components/LoanCard";
+import LoanTable from "../components/LoanTable";
 import ProgressLinear from "../components/ProgressLinear";
 import useFetchData from "../hooks/useFetchData";
 
@@ -7,12 +8,18 @@ const Loans = () => {
   const [loans, setLoans] = useState(null);
   const [paidLoans, setPaidLoans] = useState(null);
   const [owedLoans, setOwedLoans] = useState(null);
+  const [displayView, setDisplayView] = useState(false);
 
-  const { isFetching, isPaused, data, isError } = useFetchData("loans");
+  const {
+    isFetching,
+    isPaused,
+    data: loanData = [],
+    isError,
+  } = useFetchData("loans");
 
   useEffect(() => {
-    data && setLoans(data);
-  }, [data]);
+    loanData && setLoans(loanData);
+  }, [loanData]);
 
   const filterLoans = (filterType) => {
     switch (filterType) {
@@ -34,6 +41,10 @@ const Loans = () => {
     setLoans((prevLoans) => prevLoans.filter((loan) => loan.id !== id));
   };
 
+  const handleDisplay = () => {
+    setDisplayView(!displayView);
+  };
+
   const displayLoans = (loanType) => {
     return loanType.map((loan) => (
       <LoanCard
@@ -52,27 +63,42 @@ const Loans = () => {
 
   return (
     <div className="page home">
-      {isPaused && !data && (
+      {console.log(loanData)}
+      {isPaused && !loanData && (
         <p style={{ textAlign: "center" }}>Could not fetch the loans</p>
       )}
       {loans && (
         <div className="loans">
-          <div className="order-by">
-            <p>Filter by:</p>
-            <button onClick={() => filterLoans('All')}>All</button>
-            <button onClick={() => filterLoans('owed')}>Owing</button>
-            <button onClick={() => filterLoans('paid')}>Paid</button>
+          <div className="filter-nav">
+            {!displayView && (
+              <div className="order-by">
+                <p>Filter by:</p>
+                <button onClick={() => filterLoans("All")}>All</button>
+                <button onClick={() => filterLoans("owed")}>Owing</button>
+                <button onClick={() => filterLoans("paid")}>Paid</button>
+              </div>
+            )}
+            <div className="viewer">
+              <i className="material-icons" onClick={handleDisplay}>
+                {displayView ? "view_list" : "grid_view"}
+              </i>
+            </div>
           </div>
-          <div className="grid">
-            {paidLoans
-              ? displayLoans(paidLoans)
-              : owedLoans
-              ? displayLoans(owedLoans)
-              : displayLoans(loans)}
-          </div>
+          {!displayView ? (
+            <div className="grid">
+              {paidLoans
+                ? displayLoans(paidLoans)
+                : owedLoans
+                ? displayLoans(owedLoans)
+                : displayLoans(loans)}
+            </div>
+          ) : (
+            <LoanTable loans={loans} />
+          )}
         </div>
       )}
-      {data.length === 0 && <h1 className="center-txt">No Loans</h1>}
+
+      {loanData.length === 0 && <h1 className="center-txt">No Loans</h1>}
     </div>
   );
 };
