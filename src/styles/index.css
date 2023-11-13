@@ -1,18 +1,38 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap');
 
 :root {
-  --primary: #12bca2;
-  --secondary: #6d15df;
+  --background: #F5F5F5;
+  --primary: #3F51B5;
+  --accent: #FF4081;
+  --text: #212121;
+  --gradient-background: -webkit-linear-gradient(90deg, #3f51b5, #757de8, #757de8);
+  /* Chrome 10-25, Safari 5.1-6 */
+  --gradient-background: linear-gradient(90deg, #3f51b5, #757de8, #757de8);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  --primary-100: #3F51B5;
+  --primary-200: #757de8;
+  --primary-300: #dedeff;
+  --accent-100: #FF4081;
+  --accent-200: #ffe4ff;
+  --text-100: #212121;
+  --text-200: #484848;
+  --text-white: #fff;
+  --bg-100: #F5F5F5;
+  --bg-200: #ebebeb;
+  --bg-300: #c2c2c2;
+  --bg-alt: #fff;
 }
+
 /* h1,h2,h3 {
   margin: 0;
 } */
 
 body {
   margin: 0;
-  color: #333;
+  color: var(--text);
   font-family: 'Poppins';
-  background: #f2f2f2;
+  background: var(--background);
 }
 
 .title {
@@ -28,14 +48,17 @@ nav {
   padding: 10px 20px;
   text-align: center;
 }
+
 nav a {
   color: #f2f2f2;
   margin: 10px;
   display: inline-block;
 }
+
 nav h1 {
-  color: #fff;
+  color: var(--bg-alt);
 }
+
 .page {
   max-width: 1200px;
   margin: 20px auto;
@@ -66,18 +89,19 @@ nav h1 {
   /* change min-width back to width if problem arises */
   min-width: 100%;
   padding: 10px;
-  background: #fff;
+  background: var(--bg-alt);
   box-sizing: border-box;
   border-radius: 6px;
   position: relative;
   overflow-wrap: break-word;
 }
+
 .card .amount {
   position: absolute;
   top: -10px;
   right: -10px;
-  background: var(--secondary);
-  color: #fff;
+  background: var(--primary-200);
+  color: var(--text-white);
   border-radius: 6px;
   width: auto;
   height: 0;
@@ -89,45 +113,49 @@ nav h1 {
 .card .buttons {
   text-align: right;
 }
+
 .card i {
-  color: #bbb;
+  color: var(--bg-300);
   margin-left: 10px;
   font-size: 1.2em;
   padding: 6px;
-  background: #eee;
+  background: var(--bg-200);
   border-radius: 50%;
   cursor: pointer;
 }
 
 .table i {
-  color: #bbb;
+  color: var(--bg-300);
   margin-left: 10px;
   font-size: 1.2em;
   padding: 6px;
-  background: #eee;
+  background: var(--bg-200);
   border-radius: 50%;
   cursor: pointer;
 }
 
 /* forms */
 form {
-  background: #fff;
+  background: var(--bg-alt);
   padding: 20px;
   max-width: 480px;
   margin: 0 auto;
   border-radius: 6px;
 }
-form input, form textarea {
+
+form input,
+form textarea {
   display: block;
   width: 100%;
   padding: 6px;
   box-sizing: border-box;
-  border: 1px solid #ccc;
+  border: 1px solid var(--bg-200);
   margin: 10px 0 20px 0;
 }
+
 form button {
   background: var(--primary);
-  color: #fff;
+  color: var(--text-white);
   border: 0;
   border-radius: 6px;
   padding: 6px 8px;
@@ -152,7 +180,7 @@ form button {
 .order-by button {
   margin-right: 10px;
   background: var(--primary);
-  color: #fff;
+  color: var(--text-white);
   border: 0;
   padding: 4px 8px;
   border-radius: 6px;

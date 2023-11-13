@@ -20,7 +20,7 @@ const Home = () => {
     datasets: [
       {
         data: [total_interest, loan_amount],
-        backgroundColor: ["#6d15df", "#12bca2"],
+        backgroundColor: ["#3F51B5", "#FF4081"],
         borderWidth: 0,
         hoverOffset: 4,
       },

@@ -127,7 +127,7 @@ function NavBarAlt() {
   );
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" color="inherit">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <PixIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -218,7 +218,7 @@ function NavBarAlt() {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{ my: 2, color: "inherit", display: "block" }}
               >
                 {
                   <Link

@@ -3,7 +3,7 @@
   width: 600px;
   margin: 24px auto;
   padding-bottom: 20px;
-  background: #fff;
+  background: var(--bg-alt);
   box-shadow: 0 12px 50px -11px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   color: #14213d;
@@ -16,8 +16,8 @@
 }
 
 .loan-calculator .top {
-  background: #14213d;
-  color: #fff;
+  background: var(--gradient-background);
+  color: var(--text-white);
   padding: 32px;
 }
 
@@ -74,8 +74,8 @@
 }
 
 .loan-calculator .apply-btn {
-  background: var(--secondary);
-  color: #fff;
+  background: var(--primary);
+  color: var(--text-white);
   border: none;
   padding: 8px 32px;
   border-radius: 8px;
