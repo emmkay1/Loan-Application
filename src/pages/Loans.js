@@ -80,7 +80,7 @@ const Loans = () => {
             )}
             <div className="viewer">
               <i className="material-icons" onClick={handleDisplay}>
-                {displayView ? "view_list" : "grid_view"}
+                {displayView ? "grid_view" : "view_list"}
               </i>
             </div>
           </div>
